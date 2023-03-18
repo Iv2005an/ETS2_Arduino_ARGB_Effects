@@ -54,8 +54,6 @@ void log_line(const scs_log_type_t type, const char* const text, ...)
 	game_log(type, formated);
 }
 
-const size_t MAX_SUPPORTED_WHEEL_COUNT = 8;
-
 #pragma pack(push)
 #pragma pack(1)
 
@@ -85,7 +83,8 @@ struct telemetry_state_t
 	scs_value_fvector_t		cabin_angular_acceleration;	// SCS_TELEMETRY_TRUCK_CHANNEL_cabin_angular_acceleration
 
 	scs_u32_t				wheel_count;				// SCS_TELEMETRY_CONFIG_ATTRIBUTE_wheel_count
-	scs_float_t				wheel_deflections[MAX_SUPPORTED_WHEEL_COUNT]; // SCS_TELEMETRY_TRUCK_CHANNEL_wheel_susp_deflection
+	scs_float_t				wheel_deflections[8]; // SCS_TELEMETRY_TRUCK_CHANNEL_wheel_susp_deflection
+	bool hazard;
 };
 
 #pragma pack(pop)
@@ -155,6 +154,14 @@ bool initialize_shared_memory(void)
 
 	shared_memory->wheel_count = 0;
 	return true;
+}
+
+SCSAPI_VOID telemetry_store_bool(const scs_string_t /*name*/, const scs_u32_t /*index*/, const scs_value_t* const value, const scs_context_t context)
+{
+	assert(value);
+	assert(value->type == SCS_VALUE_TYPE_bool);
+	assert(context);
+	*static_cast<bool*>(context) = (value->value_bool.value != 0);
 }
 
 /**
@@ -310,8 +317,8 @@ SCSAPI_VOID telemetry_configuration(const scs_event_t event, const void* const e
 
 	const scs_named_value_t* const wheel_count_attr = find_attribute(*info, SCS_TELEMETRY_CONFIG_ATTRIBUTE_wheel_count, SCS_U32_NIL, SCS_VALUE_TYPE_u32);
 	size_t wheel_count = wheel_count_attr ? wheel_count_attr->value.value_u32.value : 0;
-	if (wheel_count > MAX_SUPPORTED_WHEEL_COUNT) {
-		wheel_count = MAX_SUPPORTED_WHEEL_COUNT;
+	if (wheel_count > 8) {
+		wheel_count = 8;
 	}
 
 	// Update the wheel-related channel registrations to match.
@@ -440,6 +447,7 @@ SCSAPI_RESULT scs_telemetry_init(const scs_u32_t version, const scs_telemetry_in
 	register_channel(TRUCK_CHANNEL_local_angular_acceleration, SCS_U32_NIL, fvector, angular_acceleration);
 	register_channel(TRUCK_CHANNEL_cabin_angular_velocity, SCS_U32_NIL, fvector, cabin_angular_velocity);
 	register_channel(TRUCK_CHANNEL_cabin_angular_acceleration, SCS_U32_NIL, fvector, cabin_angular_acceleration);
+	register_channel(TRUCK_CHANNEL_hazard_warning, SCS_U32_NIL, bool, hazard);
 
 #undef register_channel
 

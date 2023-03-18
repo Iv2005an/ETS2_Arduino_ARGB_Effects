@@ -21,6 +21,7 @@ int main() {
 
 	while (true)
 	{
+		// SCSTelemetryExample 
 		HANDLE data_map = OpenFileMappingA(FILE_MAP_READ, false, "ARGB_Telemetry_Data");
 		if (!data_map)
 		{
