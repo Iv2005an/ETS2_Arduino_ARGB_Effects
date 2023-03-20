@@ -5,8 +5,6 @@ using namespace std;
 
 int main() {
 	// Структура данных
-#pragma pack(push)
-#pragma pack(1)
 	struct telemetry_state_t
 	{
 		float speed;			 // Скорость грузовика
@@ -17,7 +15,6 @@ int main() {
 		bool r_blinker;			 // Правый поворотник
 		bool hazard;			 // Аварийка
 	};
-#pragma pack(pop)
 
 	while (true)
 	{

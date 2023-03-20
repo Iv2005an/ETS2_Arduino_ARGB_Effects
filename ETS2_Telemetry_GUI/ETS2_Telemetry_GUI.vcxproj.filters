@@ -15,35 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="ETS2_Telemetry_GUI.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="ETS2_Telemetry_GUI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ETS2_Telemetry_GUI.rc">
-      <Filter>Файлы ресурсов</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="ETS2_Telemetry_GUI.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
   </ItemGroup>
 </Project>

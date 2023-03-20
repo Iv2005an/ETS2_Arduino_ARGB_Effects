@@ -8,8 +8,6 @@
 #include "amtrucks/scssdk_telemetry_ats.h"
 
 // Структура данных
-#pragma pack(push)
-#pragma pack(1)
 struct telemetry_state_t
 {
 	float speed;	    // Скорость грузовика
@@ -20,7 +18,6 @@ struct telemetry_state_t
 	bool r_blinker;		// Правый поворотник
 	bool hazard;		// Аварийка
 };
-#pragma pack(pop)
 
 // Глобальные переменные для общей памяти
 HANDLE data_map = NULL;
