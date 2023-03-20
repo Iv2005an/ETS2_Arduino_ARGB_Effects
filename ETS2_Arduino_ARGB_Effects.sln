@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ETS2_Arduino_ARGB_Plugin", "ETS2_Arduino_ARGB_Plugin\ETS2_Arduino_ARGB_Plugin.vcxproj", "{541791DA-FCC2-4358-BDD2-8B9340D91909}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C#Reader", "C#_Reader\C#Reader.csproj", "{9B3AAD84-87BC-4B1A-AF8A-CD4F6E56867F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C#_Reader", "C#_Reader\C#_Reader.csproj", "{9B3AAD84-87BC-4B1A-AF8A-CD4F6E56867F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ETS2_Telemetry_Reader", "ETS2_Telemetry_Reader\ETS2_Telemetry_Reader.vcxproj", "{61FCEB39-EC0A-43FC-8CFD-C7BED3F2B07C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETS2_ARGB_Settings_Aplication", "ETS2_ARGB_Settings_Aplication\ETS2_ARGB_Settings_Aplication.csproj", "{08CC58C6-A6CF-4B4C-9914-F0E976CF45BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETS2_ARGB_Settings_Aplication", "ETS2_ARGB_Settings_Aplication\ETS2_ARGB_Settings_Aplication.csproj", "{08CC58C6-A6CF-4B4C-9914-F0E976CF45BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
