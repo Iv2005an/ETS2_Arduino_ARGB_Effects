@@ -10,18 +10,38 @@
 // Структура данных
 struct telemetry_state_t
 {
-	float speed;	    // Скорость грузовика
-	bool parking_brake; // Ручник
-	bool low_air;		// Нехватка воздуха
-	bool low_fuel;		// Нехватка топлива
-	bool l_blinker;		// Левый поворотник
-	bool r_blinker;		// Правый поворотник
-	bool hazard;		// Аварийка
+	bool running;        // Состояние
+	float speed;	     // Скорость грузовика
+	float speed_limit;   // Ограничение скорости
+	float throttle;		 // Газ
+	scs_s32_t gear;		 // передача
+	bool parking_brake;  // Ручник
+	bool parking_lights; // Габариты
+	bool low_air;		 // Нехватка воздуха
+	bool low_fuel;		 // Нехватка топлива
+	bool l_blinker;		 // Левый поворотник
+	bool r_blinker;		 // Правый поворотник
+	bool hazard;		 // Аварийка
 };
 
 // Глобальные переменные для общей памяти
 HANDLE data_map = NULL;
 telemetry_state_t* share_data = NULL;
+
+// Функция для заноса значений типа int в общую память
+SCSAPI_VOID telemetry_store_s32(const scs_string_t name, const scs_u32_t index, const scs_value_t* const value, const scs_context_t context)
+{
+	assert(context);
+	scs_s32_t* const storage = static_cast<scs_s32_t*>(context);
+
+	if (value) {
+		assert(value->type == SCS_VALUE_TYPE_s32);
+		*storage = value->value_s32.value;
+	}
+	else {
+		*storage = 0;
+	}
+}
 
 // Функция для заноса значений типа float в общую память
 SCSAPI_VOID telemetry_store_float(const scs_string_t name, const scs_u32_t index, const scs_value_t* const value, const scs_context_t context)
@@ -40,10 +60,21 @@ SCSAPI_VOID telemetry_store_float(const scs_string_t name, const scs_u32_t index
 // Функция для заноса значений типа bool в общую память
 SCSAPI_VOID telemetry_store_bool(const scs_string_t name, const scs_u32_t index, const scs_value_t* const value, const scs_context_t context)
 {
-	assert(value);
-	assert(value->type == SCS_VALUE_TYPE_bool);
 	assert(context);
-	*static_cast<bool*>(context) = (value->value_bool.value != 0);
+	bool* const storage = static_cast<bool*>(context);
+	if (value) {
+		assert(value->type == SCS_VALUE_TYPE_bool);
+		*storage = (value->value_bool.value != 0);
+	}
+	else {
+		*storage = 0;
+	}
+}
+
+// Функция смены активности телеметрии
+SCSAPI_VOID telemetry_pause(const scs_event_t event, const void* const event_info, const scs_context_t context)
+{
+	share_data->running = (event == SCS_TELEMETRY_EVENT_started) ? 1 : 0;
 }
 
 // Инициализация телеметрии
@@ -81,10 +112,17 @@ SCSAPI_RESULT scs_telemetry_init(const scs_u32_t version, const scs_telemetry_in
 		}
 		return SCS_RESULT_generic_error;
 	}
+	// Регистрация обработчиков необходимых евентов
+	version_params->register_for_event(SCS_TELEMETRY_EVENT_paused, telemetry_pause, NULL);
+	version_params->register_for_event(SCS_TELEMETRY_EVENT_started, telemetry_pause, NULL);
 
 	// Регистрация обработчиков необходимых каналов данных
 	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_speed, SCS_U32_NIL, SCS_VALUE_TYPE_float, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_float, &share_data->speed);
+	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_navigation_speed_limit, SCS_U32_NIL, SCS_VALUE_TYPE_float, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_float, &share_data->speed_limit);
+	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_input_throttle, SCS_U32_NIL, SCS_VALUE_TYPE_float, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_float, &share_data->throttle);
+	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_displayed_gear, SCS_U32_NIL, SCS_VALUE_TYPE_s32, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_s32, &share_data->gear);
 	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_parking_brake, SCS_U32_NIL, SCS_VALUE_TYPE_bool, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_bool, &share_data->parking_brake);
+	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_light_parking, SCS_U32_NIL, SCS_VALUE_TYPE_bool, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_bool, &share_data->parking_lights);
 	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_brake_air_pressure_warning, SCS_U32_NIL, SCS_VALUE_TYPE_bool, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_bool, &share_data->low_air);
 	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_fuel_warning, SCS_U32_NIL, SCS_VALUE_TYPE_bool, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_bool, &share_data->low_fuel);
 	version_params->register_for_channel(SCS_TELEMETRY_TRUCK_CHANNEL_lblinker, SCS_U32_NIL, SCS_VALUE_TYPE_bool, SCS_TELEMETRY_CHANNEL_FLAG_no_value, telemetry_store_bool, &share_data->l_blinker);
@@ -95,7 +133,7 @@ SCSAPI_RESULT scs_telemetry_init(const scs_u32_t version, const scs_telemetry_in
 	return SCS_RESULT_ok;
 }
 
-// Отключение телеметрии
+// Выключение телеметрии
 SCSAPI_VOID scs_telemetry_shutdown(void)
 {
 	if (share_data) {
