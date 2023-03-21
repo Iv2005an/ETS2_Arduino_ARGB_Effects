@@ -6,7 +6,7 @@ SerialPort port;
 do
 {
     error = false;
-    port = new SerialPort(GetArduinoPort(), 115200);
+    port = new SerialPort(GetArduinoPort(), 9600);
     port.Encoding = System.Text.Encoding.UTF8;
     try
     {
@@ -42,8 +42,6 @@ while (true)
     string to_send = $"{(telemetry.hazard ? 1 : 0)} {(telemetry.l_blinker ? 1 : 0)} {(telemetry.r_blinker ? 1 : 0)} {(telemetry.parking_brake || telemetry.low_air || telemetry.low_fuel ? 1 : 0)}";
     Console.WriteLine(to_send);
     port.Write(to_send);
-    Thread.Sleep(3000);
-
 }
 string GetArduinoPort()
 {

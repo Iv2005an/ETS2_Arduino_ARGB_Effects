@@ -76,7 +76,7 @@ void setup() {
   FastLED.show();
   FastLED.setBrightness(brightness);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 1500);
-  Serial.begin(115200);
+  Serial.begin(9600);
 }
 
 void loop() {
