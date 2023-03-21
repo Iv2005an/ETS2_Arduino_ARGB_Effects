@@ -81,30 +81,27 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
-    char input[7] = { 0 };
-    for (int i = 0; i < 7; i++) {
+    char input[4];
+    for (int i = 0; i < 4; i++) {
       input[i] = (char)Serial.read();
       delay(1);
     }
-    // for (int i = 0; i < 7; i++) {
+    // for (int i = 0; i < 4; i++) {
     //   Serial.print(input[i]);
     // }
     if (input[0] == '1') {
-      for (int i = 0; i < 7; i++) input[i] = NULL;
       hazard();
-    } else if (input[2] == '1') {
-      for (int i = 0; i < 7; i++) input[i] = NULL;
+    } else if (input[1] == '1') {
       l_blinler();
-    } else if (input[4] == '1') {
-      for (int i = 0; i < 7; i++) input[i] = NULL;
+    } else if (input[2] == '1') {
       r_blinler();
-    } else if (input[6] == '1') {
-      for (int i = 0; i < 7; i++) input[i] = NULL;
+    } else if (input[3] == '1') {
       warning();
     }
-    // for (int i = 0; i < 7; i++) {
+    // for (int i = 0; i < 4; i++) {
     //   Serial.print(input[i]);
     // }
+    while (Serial.available() > 0) Serial.read();
   }
 }
 // l_blinler();
