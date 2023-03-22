@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ETS2_ARGB_Settings_Aplication"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="ETS2 ARGB Settings" ResizeMode="NoResize" ShowInTaskbar="False" SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="300">
+    <TabControl>
+        <TabItem Header="Arduino">
+            <Grid Background="#FFE5E5E5">
+                <CheckBox Content="Enable" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="Enable_CheckBox_Checked" Unchecked="Enable_CheckBox_Unhecked"/>
+                <ComboBox x:Name="COM_ComboBox" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Height="22" IsEnabled="False" IsEnabledChanged ="COM_ComboBox_IsEnabledChanged" SelectedIndex="1"/>
+                <Label Content="COM Ports:" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="TestConnection_Button" Content="Test connection" HorizontalAlignment="Left" Margin="180,56,0,0" VerticalAlignment="Top" Height="22" IsEnabled="False" Click="TestConnection_Button_Click" />
+                <Button x:Name="Update_Button" Content="Update" HorizontalAlignment="Left" Margin="135,56,0,0" VerticalAlignment="Top" Height="22" IsEnabled="False" Click="Update_Button_Click"/>
+                <Label Content="Effects:" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top"/>
+                <ComboBox x:Name="Effects_ComboBox" HorizontalAlignment="Left" Margin="10,114,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Height="22" IsEnabled="False"/>
+            </Grid>
+        </TabItem>
+        <!--<TabItem Header="Logitech">
+                <Grid Background="#FFE5E5E5">
+                </Grid>
+            </TabItem>-->
+    </TabControl>
 </Window>
