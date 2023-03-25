@@ -49,7 +49,6 @@ while (true)
         (telemetry.low_fuel || telemetry.low_air || telemetry.throttle > 0 && telemetry.parking_brake && telemetry.gear != 0 || telemetry.speed_limit + 1.6 < telemetry.speed ? "1" : "0") +
         (telemetry.parking_lights ? $"{100:D3}{0:D3}{0:D3}" : "000000000")
         ) : "0000000000000";
-    Console.WriteLine(to_send);
     port.Write(to_send);
 #if debug
     Console.WriteLine($"Состояние: {telemetry.running}\n" +
