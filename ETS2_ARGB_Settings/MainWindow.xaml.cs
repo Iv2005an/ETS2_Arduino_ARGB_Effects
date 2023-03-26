@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 
 namespace ETS2_ARGB_Settings_Aplication
 {
@@ -11,6 +12,10 @@ namespace ETS2_ARGB_Settings_Aplication
     {
         public MainWindow()
         {
+            foreach (string arg in Environment.GetCommandLineArgs())
+            {
+                if (arg == "start_from_ets2") SendKeys.SendWait("%{Tab}");
+            }
             InitializeComponent();
         }
 

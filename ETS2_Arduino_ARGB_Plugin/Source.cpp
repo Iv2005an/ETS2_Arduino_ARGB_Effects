@@ -153,5 +153,21 @@ BOOL APIENTRY DllMain(
 	LPVOID reseved
 )
 {
+	switch (reason_for_call)
+	{
+	case DLL_PROCESS_ATTACH:
+		system("tasklist /FI \"IMAGENAME eq ETS2_ARGB_Settings.exe\" | find /I \"ETS2_ARGB_Settings.exe\" || start /min plugins/ETS2_ARGB_Settings.exe start_from_ets2");
+		break;
+
+	case DLL_THREAD_ATTACH:
+		break;
+
+	case DLL_THREAD_DETACH:
+		break;
+
+	case DLL_PROCESS_DETACH:
+		system("taskkill /IM ETS2_ARGB_Settings.exe");
+		break;
+	}
 	return TRUE;
 }
