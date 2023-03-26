@@ -3,13 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:ETS2_ARGB_Settings_Aplication"
         mc:Ignorable="d"
-        Title="ETS2 ARGB Settings" ResizeMode="NoResize" SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="300">
-    <TabControl>
-        <TabItem Header="Arduino">
-            <Grid Background="#FFE5E5E5">
-                <CheckBox
+        Title="ETS2 ARGB Settings" ResizeMode="CanMinimize" SizeToContent="WidthAndHeight" MinWidth="300" MinHeight="300">
+    <Grid>
+        
+        <TabControl>
+            <TabItem Header="Arduino">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox
                     x:Name="Enable_CheckBox"
                     Content="Enable"
                     HorizontalAlignment="Left"
@@ -17,7 +20,7 @@
                     VerticalAlignment="Top"
                     Checked="Enable_CheckBox_Checked"
                     Unchecked="Enable_CheckBox_Unhecked"/>
-                <ComboBox
+                    <ComboBox
                     x:Name="COM_ComboBox"
                     HorizontalAlignment="Left"
                     Margin="10,56,0,0"
@@ -30,17 +33,17 @@
                     IsEnabledChanged ="COM_ComboBox_IsEnabledChanged"
                     DropDownOpened="COM_ComboBox_DropDownOpened"
                     DropDownClosed="COM_ComboBox_DropDownClosed"/>
-                <Label
+                    <Label
                     Content="COM Ports:"
                     HorizontalAlignment="Left"
                     Margin="10,30,0,0"
                     VerticalAlignment="Top"/>
-                <Label
+                    <Label
                     Content="Effects:"
                     HorizontalAlignment="Left"
                     Margin="10,83,0,0"
                     VerticalAlignment="Top"/>
-                <ComboBox
+                    <ComboBox
                     x:Name="Effects_ComboBox"
                     HorizontalAlignment="Left"
                     Margin="10,114,0,0"
@@ -49,7 +52,19 @@
                     Height="22"
                     IsEnabled="False"
                     SelectionChanged="Effects_ComboBox_SelectionChanged"/>
-            </Grid>
-        </TabItem>
-    </TabControl>
+                    <Label
+                    Content="Status:"
+                    HorizontalAlignment="Left"
+                    Margin="10,202,0,0"
+                    VerticalAlignment="Top"/>
+                    <Label
+                    x:Name="Status_ETS2_Label"
+                    Content="ETS2 is not running"
+                    Foreground="Red"
+                    Margin="10,220,172,0"
+                    VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>
